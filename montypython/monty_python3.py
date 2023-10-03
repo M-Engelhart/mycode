@@ -5,10 +5,10 @@
 round = 0
 answer = " "
 
-while round < 3 and answer.title() != "Brian":
+while round < 3 and answer.capitalize() != "Brian":
     round += 1     # increase the round counter by 1
     answer = input('Finish the movie title, "Monty Python\'s The Life of ______": ')
-    if answer.title() == "Brian": # logic to check if user gave correct answer
+    if answer.capitalize() == "Brian": # logic to check if user gave correct answer
         print("Correct!")
     elif answer.lower() ==  "shrubbery":
         print("You gave the secret answer!")
