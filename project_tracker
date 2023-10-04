@@ -3,22 +3,27 @@
 def main():
 
     print("What would you like to do?")
-    int(input("1 - Add new project to the tracker\n2 - Check your current projects\n3 - Display projects from most important to least important\n\n"))
+    task_num =  int(input("1 - Add new project to the tracker\n2 - Check your current projects\n3 - Display projects from most important to least important\n\n"))
+    if task_num == 1:
+        add_projects()
+    elif task_num == 2:
+        project_status()
+    elif task_num == 3:
+        prioirity_projects()
+    else:
+        print("Please enter 1, 2, or 3.")
 
 
 
 
 
+#def add_projects():
 
-def add_projects():
-
-
-
-    project_template = {"project_nickname ", "cost_in_$ ", "days_until_deadline ", "priority 1(Least)-10(Most) ", "extra_comments "}
-
-    for key in project_template:
-        projects = input(f"Please provide the {key}")
-        print(projects)
+#    project_template = {"project_nickname ", "cost_in_$ ", "days_until_deadline ", "priority 1(Least)-10(Most) ", "extra_comments "}
+#
+#    for key in project_template:
+#        projects = input(f"Please provide the {key}")
+#        print(projects)
 
 #    projects{
 #    "project1"
@@ -26,6 +31,13 @@ def add_projects():
 #    "cost" : "Cost in $",
 #    "deadline" : "days until this need to be done"},
     
+
+# def project_status()
+    
+
+
+
+# def priority_projects()
 
 
 

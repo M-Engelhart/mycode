@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+
+import time
+
 """Driving a simple game framework with
    a dictionary object | Alta3 Research"""
 
@@ -11,7 +14,8 @@ def showInstructions():
     Commands:
       go [direction]
       get [item]
-    ''')
+      examine [item] (must be in inventory)
+      ''')
 
 def showStatus():
     """determine the current status of the player"""
@@ -33,14 +37,28 @@ inventory = []
 rooms = {
 
             'Hall' : {
-                  'south' : 'Kitchen'
+                  'south' : 'Kitchen',
+                  'east'  : 'Dining Room',
+                  'item'  : 'key'
+                
                 },
 
             'Kitchen' : {
-                  'north' : 'Hall'
+                'north'   : 'Hall',
+                'item'    : 'knife',
+                'fridge'  : 'Secret Room'       
+                },
+
+            'Dining Room' : {
+                   'west' : 'Hall',
+                   'item' : 'note'
+                },
+
+            'Secret Room' : {
+                   'item' : 'monster'
                 }
 
-         }
+           }
 
 # start the player in the Hall
 currentRoom = 'Hall'
@@ -89,4 +107,44 @@ while True:
             #tell them they can't get it
             print('Can\'t get ' + move[1] + '!')
 
+     ## check that the user has the note in their inventory before they can examine it.
+    if move [0] == 'examine' :
+        if "item" in inventory and move[1] == "note" :
+            print("I've been hearing strange noises in the wall behind the fridge. Maybe someone should 'go fridge' and investigate")
+        else:
+            print("That item is not in your inventory")
+            
+
+
+
+    ## If a player enters a room with a monster
+    if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
+        print('A monster is going to get you!!')
+        counter = 0
+        while counter < 5:
+            time.sleep(1)
+            counter += 1
+            user_input = input("Run away!!\n")
+            if "go kitchen" in user_input.lower():
+                print("You escaped just in time!")
+                break
+        else:
+            print("The monster got you.... Game Over")
+            break
+
+
+#    if 'item' in rooms[currentRoom] and 'monster' in rooms[currentRoom]['item']:
+#        print('A monster is going to get you!!')
+#        start_time = time.time()
+#        while True:
+#            user_input = input("Run away!!\n")
+#            if "go" in user_input.lower():
+#                print("You escaped just in time!")
+#                break
+#            current_time = time.time()
+#            elapsed_time = current_time - start_time
+#            if elapsed_time >= 5:
+#                print("The monster got you.... Game Over")
+#                break            
+       
 
