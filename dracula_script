@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+def main():
+
+    with open("dracula.txt") as dracula_file:
+        count = 0
+        for line in dracula_file:
+            if "vampire" in line.lower():
+                count += 1
+                with open("vampires.txt", "a") as vampire_lines:
+                    vampire_lines.write(line)
+    print(count)
+
+if __name__ == "__main__":
+    main()    
