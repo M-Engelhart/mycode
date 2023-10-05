@@ -2,6 +2,8 @@
 
 import os
 
+directory_path = ('/home/student/mycode/week1_project/projects/')
+
 def main():
 
     print("What would you like to do?")
@@ -20,8 +22,9 @@ def main():
 
 
 def add_projects():
-
-    filename = input("Please type a name for the project: ")
+    
+    user_input = input("Please type a name for the project: ")
+    filename = directory_path + user_input
     with open(filename ,"a") as project_file:
         nickname = input("Nickame for the project: ")
         cost = input("Cost in $: ")
@@ -37,7 +40,9 @@ def add_projects():
 
 
 def project_status():
-    filename = input("Which project would you like to check on? ")
+    print(os.listdir(directory_path))
+    user_input = input("Which project would you like to check on? ")
+    filename = '/home/student/mycode/week1_project/projects/' + user_input
     with open(filename, "r") as project_file:
         for line in project_file:
             print(line, end="")
@@ -46,13 +51,29 @@ def project_status():
 
 
 def priority_projects():
-    directory_path = ('/home/student/mycode/week1_project')
-#    project_list = os.listdir(directory_path)
-    project_list = filter(os.path.isfile, os.listdir(directory_path))
+    project_list = os.listdir(directory_path)
     for file in project_list:
         with open(file, "r") as files:
             for line in files:
+                if "Priority" in line:
+                    
                 print(line, end="")
+
+
+
+def priority_projects():
+    project_list = os.listdir(directory_path)
+
+    for file_name in project_list:
+        file_path = os.path.join(directory_path, file_name)
+
+        if os.path.isfile(file_path):
+            with open(file_path, "r") as file:
+                for line in file:
+                    if "Priority" in line:
+                        print(f'File Name: {file_name}, Priority: {priority}')
+                        break
+
 
 
 
