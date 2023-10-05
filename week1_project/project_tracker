@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+
+import os
+
+def main():
+
+    print("What would you like to do?")
+    task_num =  int(input("1 - Add new project to the tracker\n2 - Check your current projects\n3 - Display projects from most important to least important\n\n"))
+    if task_num == 1:
+        add_projects()
+    elif task_num == 2:
+        project_status()
+    elif task_num == 3:
+        priority_projects()
+    else:
+        print("Please enter 1, 2, or 3.")
+
+
+
+
+
+def add_projects():
+
+    filename = input("Please type a name for the project: ")
+    with open(filename ,"a") as project_file:
+        nickname = input("Nickame for the project: ")
+        cost = input("Cost in $: ")
+        deadline = input("Deadline in days: ")
+        priority = input("Priority of the project 1(lowest) - 10(highest): ")
+        comments = input("Any extra coments abput this project? ")
+        project_file.write(f"Nickname: {nickname}\n")
+        project_file.write(f"Cost in $: {cost}\n")
+        project_file.write(f"Deadline in days: {deadline}\n")
+        project_file.write(f"Priority of the project 1(lowest) - 10(highest): {priority}\n")
+        project_file.write(f"Extra comments: {comments}\n")
+    
+
+
+def project_status():
+    filename = input("Which project would you like to check on? ")
+    with open(filename, "r") as project_file:
+        for line in project_file:
+            print(line, end="")
+    
+
+
+
+def priority_projects():
+    directory_path = ('/home/student/mycode/week1_project')
+#    project_list = os.listdir(directory_path)
+    project_list = filter(os.path.isfile, os.listdir(directory_path))
+    for file in project_list:
+        with open(file, "r") as files:
+            for line in files:
+                print(line, end="")
+
+
+
+
+
+if __name__ == "__main__":
+    main() 
+    
+# add_projects()
