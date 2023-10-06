@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
 import os
+import re
 
-directory_path = ('/home/student/mycode/week1_project/projects/')
+directory_path = ('/home/student/mycode/week1_project/projects/')      # Set the location where project files are stored
 
 def main():
 
@@ -22,16 +23,16 @@ def main():
 
 
 def add_projects():
-    
-    user_input = input("Please type a name for the project: ")
-    filename = directory_path + user_input
+    print('\n')
+    user_input = input("Please type a name for the project: ").title()                                         # Prompts the user for the name of the file
+    filename = directory_path + user_input                                                              # Adds the name to the directory path
     with open(filename ,"a") as project_file:
         nickname = input("Nickame for the project: ")
         cost = input("Cost in $: ")
         deadline = input("Deadline in days: ")
         priority = input("Priority of the project 1(lowest) - 10(highest): ")
         comments = input("Any extra coments abput this project? ")
-        project_file.write(f"Nickname: {nickname}\n")
+        project_file.write(f"Nickname: {nickname}\n")                                                   # Writes user input to the file
         project_file.write(f"Cost in $: {cost}\n")
         project_file.write(f"Deadline in days: {deadline}\n")
         project_file.write(f"Priority of the project 1(lowest) - 10(highest): {priority}\n")
@@ -40,10 +41,12 @@ def add_projects():
 
 
 def project_status():
-    print(os.listdir(directory_path))
-    user_input = input("Which project would you like to check on? ")
+    print('\n')
+    print(os.listdir(directory_path))                                                           # Shows filenames for all projects
+    user_input = input("Which project would you like to check on? ").title()                           # and asks the user to type in a filename
     filename = '/home/student/mycode/week1_project/projects/' + user_input
     with open(filename, "r") as project_file:
+        print('\n')
         for line in project_file:
             print(line, end="")
     
@@ -51,18 +54,8 @@ def project_status():
 
 
 def priority_projects():
-    project_list = os.listdir(directory_path)
-    for file in project_list:
-        with open(file, "r") as files:
-            for line in files:
-                if "Priority" in line:
-                    
-                print(line, end="")
-
-
-
-def priority_projects():
-    project_list = os.listdir(directory_path)
+    print('\n')
+    project_list = os.listdir(directory_path)                                 # Opens the directory with all the projects(files)
 
     for file_name in project_list:
         file_path = os.path.join(directory_path, file_name)
@@ -71,8 +64,11 @@ def priority_projects():
             with open(file_path, "r") as file:
                 for line in file:
                     if "Priority" in line:
-                        print(f'File Name: {file_name}, Priority: {priority}')
-                        break
+                        priority_match = re.search(r':\s*([1-9|10])', line)   # regex search to find a number after ":" that is "1-9" or "10" ("1-10" would not work)
+                        if priority_match:
+                            priority = priority_match.group()
+                            print(f'Project: {file_name}, has a priority of: {priority}')
+                        
 
 
 
@@ -82,4 +78,3 @@ def priority_projects():
 if __name__ == "__main__":
     main() 
     
-# add_projects()
