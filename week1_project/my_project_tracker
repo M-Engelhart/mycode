@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
+'''Tool to add, store, and display projects'''
 
 import os
 import re
 
 directory_path = ('/home/student/mycode/week1_project/projects/')      # Set the location where project files are stored
 
-def main():
+def main():                             # Ask the user what they would like to do
 
     print("What would you like to do?")
-    task_num =  int(input("1 - Add new project to the tracker\n2 - Check your current projects\n3 - Display projects from most important to least important\n\n"))
+    task_num =  int(input("1 - Add new project to the tracker\n2 - Check your current projects\n3 - Display projects by priority\n\n"))
     if task_num == 1:
         add_projects()
     elif task_num == 2:
@@ -16,10 +17,8 @@ def main():
     elif task_num == 3:
         priority_projects()
     else:
-        print("Please enter 1, 2, or 3.")
-
-
-
+        print("Please enter 1, 2, or 3.\n")
+        main()                                  # Re-runs the function until we get proper input
 
 
 def add_projects():
@@ -51,11 +50,11 @@ def project_status():
             print(line, end="")
     
 
-
-
 def priority_projects():
     print('\n')
     project_list = os.listdir(directory_path)                                 # Opens the directory with all the projects(files)
+
+    file_info_list = []
 
     for file_name in project_list:
         file_path = os.path.join(directory_path, file_name)
@@ -68,13 +67,34 @@ def priority_projects():
                         if priority_match:
                             priority = priority_match.group()
                             print(f'Project: {file_name}, has a priority of: {priority}')
-                        
-
-
-
-
-
+#                            sortedProj = sorted( Proj, key =lambda x: x.get('priority') )
+#                            print(sortedProj)
 
 if __name__ == "__main__":
     main() 
-    
+
+
+
+
+
+
+
+
+
+
+
+
+'''                      if priority_match:
+                            priority = int(priority_match.group(1))
+                            file_info_list.append({"filename": file_name, "priority": priority})
+
+        # Sort the file information list by priority (highest to lowest)
+        file_info_list.sort(key=lambda x: x["priority"], reverse=True)
+
+        # Print the sorted file information
+        for file_info in file_info_list:
+            print(f'Project: {file_info["filename"]}, has a priority of: {file_info["priority"]}')
+'''
+
+    # apimoveS = sorted(apimoves, key =lambda x: x.get('move').get('name'))
+    # sortedProj = sorted( Proj, key =lambda x: x.get('priority') )
