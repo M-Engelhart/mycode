@@ -1,0 +1,20 @@
+---
+- name: A simple file playbook
+  hosts: planetexpress
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+   - name: make a directory
+     file:
+       path: ~/output/
+       state: directory
+
+     #   - name: user shell module with wildcarding
+     #     ansible.builtin.shell: echo $HOME >> ~/output/path.txt
+
+   - name: use copy to avoid shell module
+     ansible.builtin.copy:
+      content: "{{ ansible_env.HOME}}" 
+      dest: ~/output/path.txt
+      force: yes
