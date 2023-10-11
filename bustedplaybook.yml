@@ -1,0 +1,17 @@
+---
+- name: Tuesday Challenge
+  hosts: planetexpress
+  connection: ssh
+  gather_facts: yes
+
+  tasks:
+   - apt:
+        name: sl
+        state: present
+     name: using apt to install sl
+     register: result
+     when: ansible_distribution == "Ubuntu"
+
+   - name: print out the variable named "result"
+     debug:
+       var: result
