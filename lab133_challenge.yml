@@ -1,0 +1,20 @@
+---
+- name: Run 'show interfaces' on arista swtiches
+  hosts: arista_switches
+  gather_facts: false
+  connection: network_cli
+  become: yes
+  become_method: enable
+
+  vars:
+    ansible_ssh_pass: alta3
+
+  tasks:
+    - name: command 'show interfaces'
+      ansible.netcommon.cli_command:
+        command: show interfaces
+      register: results
+
+    - name: output of 'show interfaces'
+      debug:
+        var: results

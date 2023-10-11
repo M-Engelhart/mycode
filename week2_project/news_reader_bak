@@ -47,4 +47,4 @@ def search_news(keyword):
 
 if __name__ == "__main__":
     keyword = input("Enter a keyword to search for news articles: ")
-    search_news(keyword)
+    search_news()
