@@ -1,0 +1,21 @@
+---
+- name: Lab 136 Challenge to print data using an API
+  hosts: localhost
+  connection: local
+
+  vars:
+    poke: https://pokeapi.co/                                                                                                         
+  tasks:
+  - name: Send an HTTP GET 
+    ansible.builtin.uri:
+      method: GET
+      url: "{{ poke }}"
+    register: data
+
+  - name: Use debug to show unformatted data
+    ansible.builtin.debug:
+      msg: data
+
+  - name: Show formatted data 
+    ansible.builtin.debug:
+      msg: "{{ data.get('`json') }}"

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News Search</title>
+</head>
+<body>
+    <h1>News Search</h1>
+    <form method="POST" action="/search">
+        <label for="keyword">Enter a keyword to search for news articles: </label>
+        <input type="text" name="keyword" id="keyword">
+        <input type="submit" value="Search">
+    </form>
+    {% if message %}
+        <p>{{ message }}</p>
+    {% else %}
+        <ul>
+            {% for article in articles %}
+                <li><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
+

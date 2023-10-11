@@ -1,0 +1,42 @@
+#!/usr/bin/env python3
+'''An API/ Flask project that uses keywords to search for news articles'''
+
+import requests
+from flask import Flask, request, render_template
+
+app = Flask(__name__)
+
+# Replace 'YOUR_API_KEY' with your actual News API key
+API_KEY = 'acc84431af324dcd9a5a04f090159cc4'       
+BASE_URL = 'https://newsapi.org/v2/everything'
+
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
+
+@app.route("/search", methods=["POST"])
+def search_news():
+    keyword = request.form.get("keyword")
+    params = {
+        "apiKey": API_KEY,
+        "q": keyword,
+        "pageSize": 10
+    }
+
+    response = requests.get(BASE_URL, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        articles = data.get("articles")
+
+        if articles is None:
+            message = f"No news articles found for '{keyword}'."
+            return render_template("index.html", message=message, articles=None)
+
+        return render_template("index.html", articles=articles)
+
+    return render_template("index.html", articles=None, message="Error: Unable to fetch news data.")
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=2224, debug=True) # Runs the program on 'aux1' with debuging enabled.
+ 

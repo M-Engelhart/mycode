@@ -1,56 +1,38 @@
 #!/usr/bin/python3
-"""Alta3 Research - astros on ISS"""
+"""Alta3 Research | RZFeeser
+   Accessing Open APIs with Python"""
 
-import urllib.request
-import json
+# 3rd party library
+import requests
+import pprint
 
-MAJORTOM = "http://api.open-notify.org/astros.json"
+# Define URL as a global constant (this will not change)
+MAJORTOM = 'http://api.open-notify.org/astros.json'
 
 def main():
-    """reading json from api"""
-    # call the api
-    groundctrl = urllib.request.urlopen(MAJORTOM)
+    """making API requests"""
+    
+    # Call the web service
+    resp = requests.get(MAJORTOM)  # sends an HTTP GET
+    
+    # strip JSON data off response and convert
+    # to python data types
+    data = resp.json()
+            
+    # display our Pythonic data
+    print("\n\nConverted Python data")
+    pprint.pprint(data)
+    
+    print('\n\nPeople in Space: ', data.get('number'))
+    
+    astros = data.get('people') # people is a list of dict
+    print(astros) # this is the list of dict
 
-    # strip off the attachment (JSON) and read it
-    # the problem here, is that it will read out as a string
-    helmet = groundctrl.read()
+    # for-loop across astros
+    # display names of those in space
+    for astro in astros:
+        print(f"Riding on the {astro['craft']} is:", astro['name'])
 
-    # show that at this point, our data is str
-    # we want to convert this to list / dict
-    print(helmet)
-
-    helmetson = json.loads(helmet.decode("utf-8"))
-
-    # this should say bytes
-    print(type(helmet))
-
-    # this should say dict
-    print(type(helmetson))
-
-    print(helmetson["number"])
-
-    # this returns a LIST of the people on this ISS
-    print(helmetson["people"])
-
-    # list the FIRST astro in the list
-    print(helmetson["people"][0])
-
-    # list the SECOND astro in the list
-    print(helmetson["people"][1])
-
-    # list the LAST astro in the list
-    print(helmetson["people"][-1])
-
-    # display every item in a list
-    for astro in helmetson["people"]:
-        # display what astro is
-        print(astro)
-
-    # display every item in a list
-    for astro in helmetson["people"]:
-        # display ONLY the name value associated with astro
-        print(astro["name"])
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 
