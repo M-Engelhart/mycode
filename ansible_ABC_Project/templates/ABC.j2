@@ -1,0 +1,11 @@
+ansible_distribution: {{ ansible_distribution }}
+ansible_all_ipv4_addresses: {{ ansible_all_ipv4_addresses }}
+ 
+{% for item in ansible_date_time %}
+"{{ item }} : {{item[0]}}"
+{% endfor %}
+
+{% for item in ansible_default_ipv4 %}
+{{ item }}
+{% endfor %}
+

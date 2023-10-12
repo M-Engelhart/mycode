@@ -1,57 +1,44 @@
-#!/usr/bin/python3 
-"""Alta3 Research | rzfeeser@alta3.com
-   Use Paramiko to create an SFTP session and transport files into a directory determined by the user"""
-
-# python3 -m pip install paramiko
-import paramiko # allows Python to ssh
-
+#!/usr/bin/env python3
+'''Alta3 Research | RZFeeser
+   Paramiko - Moving files via FTP over SSH using the paramiko library, a "pure python" solution.'''
 
 # standard library
-import os # low level operating system commands
-import getpass # we need this to accept passwords
+import os  # operating system agnostic operations
 
+# 3rd party imports
+import paramiko   # python3 -m pip install paramiko
 
-def transfer_to_this_remote_dir():
-    """ask user for full path of directory to be created"""
-    while True:
-        what_dir = input("What directory on the remote host would you like to transfer files to (default: /tmp/)? ")
-        if what_dir == "":   # if they just hit "enter" we can assume they want the default
-            what_dir = "/tmp/"
-            break  # escape the infinite loop
-        elif what_dir[0] == "/" and what_dir[-1] == "/":
-            break  # escape the infinite loop
-        print("You must enter a full path for the remote host. Full paths must begin and end with '/'.")
-    return what_dir  # this should be a full path
-
-
-def movethemfiles(sftp):
-    """a simple function that moves files across an SFTP paramiko channel"""
-    what_dir = transfer_to_this_remote_dir()  # nested function call to determine the full path to transfer to
-
-    # iterate across the files within directory
-    for x in os.listdir("/home/student/filestocopy/"): # iterate on directory contents
-      if not os.path.isdir("/home/student/filestocopy/"+x): # filter everything that is NOT a directory
-        sftp.put("/home/student/filestocopy/"+x, what_dir+x) # sftp.put("from_path_local", "to_path_remote") - move file to target location
-    return
+CREDS = [{"ip": "10.10.2.3", "un": "bender"}, {"ip": "10.10.2.4", "un": "fry"}, {"ip": "10.10.2.5", "un": "zoidberg"}]
 
 def main():
-    """runtime"""
-    ## where to connect to
-    t = paramiko.Transport("10.10.2.3", 22) ## IP and port of bender
+    '''Moving a file with the paramiko library'''
 
-    ## how to connect (see other labs on using id_rsa private / public keypairs)
-    t.connect(username="bender", password=getpass.getpass()) # notice the password references getpass
+    # loop across the "CREDS" (list of dicts, containing IP and Username)
+    for host in CREDS:
 
-    ## Make an SFTP connection object
-    sftp = paramiko.SFTPClient.from_transport(t)
+        # where to connect to; this is akin to opening a PuTTY
+        #  terminal and filling out what you want to connect to
+        t = paramiko.Transport(host.get('ip'), 22) # IP and port
 
-    # call function that moves files
-    movethemfiles(sftp)  # we must pass the sftp connection channel to the function
+        # connect using a username and password
+        # in production, we would never want to hard code
+        # credentials into our script!
+        t.connect(username=host.get('un'), password="alta3") # connect!
 
-    ## close the connection
-    sftp.close() # close the sftp connection
-    t.close()    # close the transport channel
+        # Now that we have an SSH connection
+        # we can lay an FTP conenction overtop of this secure channel
+        sftp = paramiko.SFTPClient.from_transport(t)
 
+        # iterate across the files within directory
+        for x in os.listdir("/home/student/filestocopy/"): # iterate on directory contents
+          if not os.path.isdir("/home/student/filestocopy/"+x): # filter everything that is NOT a directory
+            sftp.put("/home/student/filestocopy/"+x, "/tmp/"+x) # move file to target location
+
+        # close the connection
+        sftp.close() # close the connection
+        t.close()    # close SSH connection
+
+# call the main function
 if __name__ == "__main__":
     main()
 

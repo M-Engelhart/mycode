@@ -27,25 +27,4 @@ sw-1
 sw-2
 
 [eosswitches:vars]
-ansible_user=admin
 ansible_network_os=eos
-
-[arista_switches]
-sw-1
-sw-2
-
-[arista_swtiches]
-ansible_user=admin
-ansible_network=eos
-
-
-[aristaswitchessecure]
-sw-1
-sw-2
-
-[aristaswitchessecure:vars]
-ansible_network_os=eos
-ansible_connection=network_cli
-ansible_become=yes
-ansible_become_method=enable
-ansible_user=admin

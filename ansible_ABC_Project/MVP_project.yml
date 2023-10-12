@@ -1,0 +1,19 @@
+---
+- name: MVP Challenge
+  hosts: MVP
+ 
+  tasks:
+  - name: download cmatrix
+    ansible.builtin.apt:
+      name: cmatrix
+      force: true
+      state: present
+    become: true
+  - name: copy a file from controller to the hosts
+    ansible.builtin.copy:
+      src: /home/student/mycode/ansible_ABC_Project/file_to_copy
+      dest: /home/student
+  - name: Use a Jinja templtae to place a file on each of the hosts with info about themselves
+    template:
+      src: /home/student/mycode/ansible_ABC_Project/templates/ABC.j2
+      dest: /home/student/host_info.txt

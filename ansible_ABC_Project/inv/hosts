@@ -1,0 +1,5 @@
+[MVP]
+alpha     ansible_user=student    ansible_python_interpreter=/usr/bin/python3
+bravo     ansible_user=student    ansible_python_interpreter=/usr/bin/python3
+charlie   ansible_user=student    ansible_python_interpreter=/usr/bin/python3
+
