@@ -10,27 +10,27 @@ app = Flask(__name__)
 API_KEY = 'acc84431af324dcd9a5a04f090159cc4'       
 BASE_URL = 'https://newsapi.org/v2/everything'
 
-@app.route("/", methods=["GET"])
-def index():
+@app.route("/", methods=["GET", "POST"])            # initial search page
+def main():
     return render_template("index.html")
 
-@app.route("/search", methods=["POST"])
+@app.route("/search", methods=["GET", "POST"])     # search page that loads after typing in keywords
 def search_news():
     keyword = request.form.get("keyword")
-    params = {
+    params = {                              # Dictionary to allow more than 2 arguements in request funcitons
         "apiKey": API_KEY,
         "q": keyword,
-        "pageSize": 10
+        "pageSize": 10                      # Only grab the first 10 items
     }
 
     response = requests.get(BASE_URL, params=params)
 
-    if response.status_code == 200:
+    if response.status_code == 200:         # Check to make sure an error wasn't received from the websites.
         data = response.json()
-        articles = data.get("articles")
+        articles = data.get("articles")     # Get the names of the articles returned from the search.
 
-        if articles is None:
-            message = f"No news articles found for '{keyword}'."
+        if articles is None:                                              # Error message if nothing can be returned from search
+            message = f"No news articles found for '{keyword}'."   
             return render_template("index.html", message=message, articles=None)
 
         return render_template("index.html", articles=articles)
@@ -38,5 +38,5 @@ def search_news():
     return render_template("index.html", articles=None, message="Error: Unable to fetch news data.")
 
 if __name__ == "__main__":
+#    app.run(debug=True)
     app.run(host="0.0.0.0", port=2224, debug=True) # Runs the program on 'aux1' with debuging enabled.
- 
