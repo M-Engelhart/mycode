@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+'''An API/ Flask project that uses keywords to search for news articles'''
+
 import requests
 
 # Replace 'YOUR_API_KEY' with your actual News API key
@@ -25,24 +28,19 @@ def main():
     for i, article in enumerate(articles):           # print numbered list with articles
         print(f"{i + 1}. {article['title']}")
 
-            # Allow the user to choose an article to display
-    while True:
-        try:
-            choice = int(input("Enter the number of the article you want to read (0 to exit): "))
-            if 0 <= choice <= len(articles):
-                if choice == 0:
-                    print("Goodbye!")
-                    break
-                else:
-                    chosen_article = articles[choice - 1]
-                    print(f"Title: {chosen_article['title']}")
-                    print(f"Description: {chosen_article['description']}")
-                    print(f"URL: {chosen_article['url']}")
-                    break
-            else:
-                print("Invalid choice. Please enter a valid number.")
-        except ValueError:
-          print("Invalid input. Please enter a number.")
+    while True:                                       # Allow the user to choose an article to display and loop if the user enters an invalid number.
+        choice = int(input("Enter the number of the article you want to read (0 to exit): "))
+        if 0 <= choice <= len(articles):
+            chosen_article = articles[choice - 1]
+            print(f"Title: {chosen_article['title']}")
+            print(f"Description: {chosen_article['description']}")
+            print(f"URL: {chosen_article['url']}")
+            break
+        elif choice == 0:
+            print('Goodbye!')
+            break
+        else:
+            print("Invalid choice. Please enter a valid number.")
     
 if __name__ == "__main__":
     main()
